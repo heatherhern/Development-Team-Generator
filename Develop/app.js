@@ -136,7 +136,7 @@ askQuestions();
 
 let employees = [];
 
-function askQuestions() {
+async function askQuestions() {
     prompt(questions).then(response => {
         if (newEmployee === true) {
             const { employeeType } = type;
