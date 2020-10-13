@@ -167,25 +167,13 @@ function askQuestions() {
                 const newUnicorn = new Unicorn(name, id, email, unicorn);
                 employees.push(newUnicorn);
                 console.log(employees);
-
-
-
-
-prompt(questions).then(response => {
-    if (response.)
-    if (response.nextEmployee === "Engineer") {
-        getEngineer();
-    } else if (response.nextEmployee === "Intern") {
-        getIntern();
-    } else {
-        html = render(employees);
-        fs.appendFile("./output/team.html", html, (err) => {
-            if (err) throw err;
-            console.log("Your team page was successfully generated!")
-        })
-    }
-});
-};
+            }
+            else {
+                html = render(employees);
+                fs.appendFile("./output/team.html", html, (err) => {
+                    if (err) throw err;
+                    console.log("Your team page was successfully generated!")
+            }
 
 
 
