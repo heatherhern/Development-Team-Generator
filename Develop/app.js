@@ -10,8 +10,127 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-
 // Write code to use inquirer to gather information about the development team members,
+
+async function runApp() {
+    const questions = [
+        {
+            type: 'confirm',
+            message: 'Would you like to create a new employee?',
+            name: 'newEmployee',
+        },
+        {
+            type: 'list',
+            message: 'Which employee would we like to create?',
+            name: 'employeeType',
+            choices: [
+                { name: 'Manager', checked: false },
+                { name: 'Engineer', checked: false },
+                { name: 'Intern', checked: false },
+                { name: 'Unicorn', checked: false }
+            ]
+        },
+        {
+            type: 'confirm',
+            message: 'Would you like to create another employee?',
+            name: 'anotherEmployee',
+        }
+    ];
+
+    const engineerQuestions = [
+        {
+            type: 'input',
+            message: 'Please enter your name.',
+            name: 'name'
+        },
+        {
+            type: 'input',
+            message: 'Please enter your work ID.',
+            name: 'id'
+        },
+        {
+            type: 'input',
+            message: 'Please enter your work email.',
+            name: 'email'
+        },
+        {
+            type: 'input',
+            message: 'Please enter your work GitHub.',
+            name: 'github'
+        }
+    ];
+
+    const managerQuestions = [
+        {
+            type: 'input',
+            message: 'Please enter your name.',
+            name: 'name'
+        },
+        {
+            type: 'input',
+            message: 'Please enter your work ID.',
+            name: 'id'
+        },
+        {
+            type: 'input',
+            message: 'Please enter your work email.',
+            name: 'email'
+        },
+        {
+            type: 'input',
+            message: 'Please enter your manager office number.',
+            name: 'office'
+        }
+    ];
+
+    const internQuestions = [
+        {
+            type: 'input',
+            message: 'Please enter your name.',
+            name: 'name'
+        },
+        {
+            type: 'input',
+            message: 'Please enter your work ID.',
+            name: 'id'
+        },
+        {
+            type: 'input',
+            message: 'Please enter your email.',
+            name: 'email'
+        },
+        {
+            type: 'input',
+            message: 'Please enter the school you are attending.',
+            name: 'school'
+        }
+    ];
+
+    const unicornQuestions = [
+        {
+            type: 'input',
+            message: 'Please enter your name.',
+            name: 'name'
+        },
+        {
+            type: 'input',
+            message: 'Please enter your work ID.',
+            name: 'id'
+        },
+        {
+            type: 'input',
+            message: 'Please enter your email.',
+            name: 'email'
+        },
+        {
+            type: 'input',
+            message: 'What color unicorn are you?',
+            name: 'color'
+        }
+    ];
+
+
+
 // and to create objects for each team member (using the correct classes as blueprints!)
 
 // After the user has input all employees desired, call the `render` function (required
