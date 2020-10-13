@@ -11,17 +11,18 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 
 // Write code to use inquirer to gather information about the development team members,
+// and to create objects for each team member (using the correct classes as blueprints!)
 
-async function runApp() {
+
     const questions = [
         {
             type: 'confirm',
-            message: 'Would you like to create a new employee?',
+            message: 'Would you like to add a new employee?',
             name: 'newEmployee',
         },
         {
             type: 'list',
-            message: 'Which employee would we like to create?',
+            message: 'Which employee do you want to create?',
             name: 'employeeType',
             choices: [
                 { name: 'Manager', checked: false },
@@ -129,9 +130,65 @@ async function runApp() {
         }
     ];
 
+askQuestions();
+
+let employees = [];
+
+function askQuestions() {
+    prompt(questions).then(response => {
+        if (newEmployee === true) {
+            const { employeeType } = type;
+            if (employeeType === 'Manager') {
+                const managerObject = await inquirer.prompt(managerQuestions);
+                const { name, id, email, office } = managerObject;
+                const newManager = new Manager(name, id, email, office);
+                employees.push(newManager);
+                console.log(employees);
+            }
+            else if (employeeType === 'Engineer') {
+                const engineerObject = await inquirer.prompt(engineerQuestions);
+                const { name, id, email, github } = engineerObject;
+                const newEngineer = new Engineer(name, id, email, github);
+                employees.push(newEngineer);
+                console.log(employees);
+            }
+            else if (employeeType === 'Intern') {
+                const internObject = await inquirer.prompt(internQuestions);
+                const { name, id, email, school } = internObject;
+                const newIntern = new Intern(name, id, email, school);
+                employees.push(newIntern);
+                console.log(employees);
+            }
+            else if (employeeType === 'Unicorn') {
+                const unicornObject = await inquirer.prompt(unicornQuestions);
+                const { name, id, email, color } = unicornObject;
+                const newUnicorn = new Unicorn(name, id, email, unicorn);
+                employees.push(newUnicorn);
+                console.log(employees);
 
 
-// and to create objects for each team member (using the correct classes as blueprints!)
+
+
+prompt(questions).then(response => {
+    if (response.)
+    if (response.nextEmployee === "Engineer") {
+        getEngineer();
+    } else if (response.nextEmployee === "Intern") {
+        getIntern();
+    } else {
+        html = render(employees);
+        fs.appendFile("./output/team.html", html, (err) => {
+            if (err) throw err;
+            console.log("Your team page was successfully generated!")
+        })
+    }
+});
+};
+
+
+
+
+// engineer, manager, intern, unicorn
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
