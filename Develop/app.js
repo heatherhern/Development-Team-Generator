@@ -136,17 +136,38 @@ const unicornQuestions = [
 askQuestions();
 
 let employees = [];
+var exit = true;
 
 async function askQuestions() {
-    prompt(questions).then(response => {
-        // if (newEmployee === true) {
-        const { employeeType } = type;
-        if (employeeType === 'Manager') {
-            const managerObject = inquirer.prompt(managerQuestions);
-            const { name, id, email, office } = managerObject;
-            const newManager = new Manager(name, id, email, office);
-            employees.push(newManager);
-            console.log(employees);
+
+    {
+        const begin = await inquirer.prompt(questions[0]);
+        const { newEmployee } = begin;
+        if (newEmployee === true) {
+            const type = await inquirer.prompt(questions[1]);
+            const { employeeType } = type;
+            if (employeeType === 'Manager') {
+                const managerObject = await inquirer.prompt(managerQuestions);
+                const { name, id, email, office } = managerObject;
+                const newManager = new Manager(name, id, email, office);
+                employees.push(newManager);
+                console.log(employees);
+                const runAgain = await inquirer.prompt(questions[2]);
+                const { anotherEmployee } = runAgain
+                exit = anotherEmployee;
+            }
+
+
+
+    // prompt(questions).then(response => {
+    //     if (newEmployee === true) {
+    //     const { employeeType } = type;
+    //     if (employeeType === 'Manager') {
+    //         const managerObject = inquirer.prompt(managerQuestions);
+    //         const { name, id, email, office } = managerObject;
+    //         const newManager = new Manager(name, id, email, office);
+    //         employees.push(newManager);
+    //         console.log(employees);
         }
         else if (employeeType === 'Engineer') {
             const engineerObject = inquirer.prompt(engineerQuestions);
@@ -176,6 +197,7 @@ async function askQuestions() {
                 console.log("Your team page was successfully generated!");
             });
         };
+    }
     });}
 
 
