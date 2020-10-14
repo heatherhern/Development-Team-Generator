@@ -139,9 +139,8 @@ let employees = [];
 var exit = true;
 
 async function askQuestions() {
-
-    {
-        const begin = await inquirer.prompt(questions[0]);
+    { 
+    const begin = await inquirer.prompt(questions[0]);
         const { newEmployee } = begin;
         if (newEmployee === true) {
             const type = await inquirer.prompt(questions[1]);
@@ -158,7 +157,7 @@ async function askQuestions() {
             }
             else if (employeeType === 'Engineer') {
                 const engineerObject = inquirer.prompt(engineerQuestions);
-                const { name, id, email, github } = engineerObject;
+                // const { name, id, email, github } = engineerObject;
                 const newEngineer = new Engineer(name, id, email, github);
                 employees.push(newEngineer);
                 console.log(employees);
@@ -168,7 +167,7 @@ async function askQuestions() {
             }
             else if (employeeType === 'Intern') {
                 const internObject = inquirer.prompt(internQuestions);
-                const { name, id, email, school } = internObject;
+                // const { name, id, email, school } = internObject;
                 const newIntern = new Intern(name, id, email, school);
                 employees.push(newIntern);
                 console.log(employees);
@@ -178,7 +177,7 @@ async function askQuestions() {
             }
             else if (employeeType === 'Unicorn') {
                 const unicornObject = inquirer.prompt(unicornQuestions);
-                const { name, id, email, color } = unicornObject;
+                // const { name, id, email, color } = unicornObject;
                 const newUnicorn = new Unicorn(name, id, email, color);
                 employees.push(newUnicorn);
                 console.log(employees);
