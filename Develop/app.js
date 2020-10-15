@@ -16,7 +16,6 @@ const render = require("./lib/htmlRenderer");
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
-
 const questions = [
     {
         type: 'confirm',
@@ -135,68 +134,56 @@ const unicornQuestions = [
 
 askQuestions();
 
-let employees = [];
+const employees = [];
 var exit = true;
 
-async function askQuestions() {
-    { 
-    const begin = await inquirer.prompt(questions[0]);
-        const { newEmployee } = begin;
-        if (newEmployee === true) {
-            const type = await inquirer.prompt(questions[1]);
-            const { employeeType } = type;
-            if (employeeType === 'Manager') {
-                const managerObject = await inquirer.prompt(managerQuestions);
-                const { name, id, email, office } = managerObject;
-                const newManager = new Manager(name, id, email, office);
-                employees.push(newManager);
-                console.log(employees);
-                const runAgain = await inquirer.prompt(questions[2]);
-                const { anotherEmployee } = runAgain
-                exit = anotherEmployee;
-            }
-            else if (employeeType === 'Engineer') {
-                const engineerObject = inquirer.prompt(engineerQuestions);
-                // const { name, id, email, github } = engineerObject;
-                const newEngineer = new Engineer(name, id, email, github);
-                employees.push(newEngineer);
-                console.log(employees);
-                const runAgain = await inquirer.prompt(questions[2]);
-                const { anotherEmployee } = runAgain
-                exit = anotherEmployee;
-            }
-            else if (employeeType === 'Intern') {
-                const internObject = inquirer.prompt(internQuestions);
-                // const { name, id, email, school } = internObject;
-                const newIntern = new Intern(name, id, email, school);
-                employees.push(newIntern);
-                console.log(employees);
-                const runAgain = await inquirer.prompt(questions[2]);
-                const { anotherEmployee } = runAgain
-                exit = anotherEmployee;
-            }
-            else if (employeeType === 'Unicorn') {
-                const unicornObject = inquirer.prompt(unicornQuestions);
-                // const { name, id, email, color } = unicornObject;
-                const newUnicorn = new Unicorn(name, id, email, color);
-                employees.push(newUnicorn);
-                console.log(employees);
-                const runAgain = await inquirer.prompt(questions[2]);
-                const { anotherEmployee } = runAgain
-                exit = anotherEmployee;
-            }
+function askQuestions() {
+    const begin = inquirer.prompt(questions[0]);
+    const { newEmployee } = begin;
+    if (newEmployee === true) {
+        const type = inquirer.prompt(questions[1]);
+        const { employeeType } = type;
+        if (employeeType === 'Manager') {
+            const managerObject = inquirer.prompt(managerQuestions);
+            const { name, id, email, office } = managerObject;
+            const newManager = new Manager(name, id, email, office);
+            employees.push(newManager);
+            const runAgain = inquirer.prompt(questions[2]);
+            const { anotherEmployee } = runAgain
+            exit = anotherEmployee;
+        }
+        else if (employeeType === 'Engineer') {
+            const engineerObject = inquirer.prompt(engineerQuestions);
+            const { name, id, email, github } = engineerObject;
+            const newEngineer = new Engineer(name, id, email, github);
+            employees.push(newEngineer);
+            const runAgain = inquirer.prompt(questions[2]);
+            const { anotherEmployee } = runAgain
+            exit = anotherEmployee;
+        }
+        else if (employeeType === 'Intern') {
+            const internObject = inquirer.prompt(internQuestions);
+            const { name, id, email, school } = internObject;
+            const newIntern = new Intern(name, id, email, school);
+            employees.push(newIntern);
+            const runAgain = inquirer.prompt(questions[2]);
+            const { anotherEmployee } = runAgain
+            exit = anotherEmployee;
+        }
     } else if (newEmployee === false) {
         exit = false;
     };
 }
 while (exit === true);
-const teamHTML = await render(employees);
+const teamHTML = render(employees);
 fs.writeFile(outputPath, teamHTML, 'utf8', function (err) {
     if (err) {
-        return console.log('Ruh roh raggy! Something went wrong.');
+        return console.log('Something went wrong.');
     };
 });
-};
+;
+
+
 
 
 // After the user has input all employees desired, call the `render` function (required
