@@ -4,155 +4,124 @@ const Intern = require('./lib/Intern');
 const inquirer = require('inquirer');
 const path = require('path');
 const fs = require('fs');
+var prompt = inquirer.createPromptModule();
 
 const OUTPUT_DIR = path.resolve(__dirname, 'output');
 const outputPath = path.join(OUTPUT_DIR, 'team.html');
 const render = require('./lib/htmlRenderer');
 
-async function startApp() {
-    const questions = [
-        {
-            type: 'confirm',
-            message: 'Would you like to create a new employee?',
-            name: 'newEmployee',
-        },
-        {
-            type: 'list',
-            message: 'Which employee would we like to create?',
-            name: 'employeeType',
-            choices: [
-                { name: 'Manager', checked: false },
-                { name: 'Engineer', checked: false },
-                { name: 'Intern', checked: false }
-            ]
-        },
-        {
-            type: 'confirm',
-            message: 'Would you like to create another employee?',
-            name: 'anotherEmployee',
-        }
-    ];
+let managerQuestions = [{
+    type: "input",
+    message: "Welcome, Manager! What is your name?",
+    name: "name"
+},
+{
+    type: "input",
+    message: "What is your employee ID number?",
+    name: "id"
+},
+{
+    type: "input",
+    message: "What is your email?",
+    name: "email"
+},
+{
+    type: "input",
+    message: "What is your office number?",
+    name: "officeNumber"
+}];
 
-    const engineerQuestions = [
-        {
-            type: 'input',
-            message: 'Please enter your name.',
-            name: 'name'
-        },
-        {
-            type: 'input',
-            message: 'Please enter your work ID.',
-            name: 'id'
-        },
-        {
-            type: 'input',
-            message: 'Please enter your work email.',
-            name: 'email'
-        },
-        {
-            type: 'input',
-            message: 'Please enter your work GitHub.',
-            name: 'github'
-        }
-    ];
+let moreEmployees = { type: "list", message: "What other employees do you have?", choices: ["Engineer", "Intern", new inquirer.Separator(), "I have no more employees"], name: "nextEmployee" };
 
-    const managerQuestions = [
-        {
-            type: 'input',
-            message: 'Please enter your name.',
-            name: 'name'
-        },
-        {
-            type: 'input',
-            message: 'Please enter your work ID.',
-            name: 'id'
-        },
-        {
-            type: 'input',
-            message: 'Please enter your work email.',
-            name: 'email'
-        },
-        {
-            type: 'input',
-            message: 'Please enter your manager office number.',
-            name: 'office'
-        }
-    ];
+let engineerQuestions = [{
+    type: "input",
+    message: "What is your Engineer's name?",
+    name: "name"
+},
+{
+    type: "input",
+    message: "What is their employee ID number?",
+    name: "id"
+},
+{
+    type: "input",
+    message: "What is their email?",
+    name: "email"
+},
+{
+    type: "input",
+    message: "What is their Github username?",
+    name: "github"
+}];
 
-    const internQuestions = [
-        {
-            type: 'input',
-            message: 'Please enter your name.',
-            name: 'name'
-        },
-        {
-            type: 'input',
-            message: 'Please enter your work ID.',
-            name: 'id'
-        },
-        {
-            type: 'input',
-            message: 'Please enter your work email.',
-            name: 'email'
-        },
-        {
-            type: 'input',
-            message: 'Please enter the school you are attending.',
-            name: 'school'
-        }
-    ];
+let internQuestions = [{
+    type: "input",
+    message: "What is your Interns's name?",
+    name: "name"
+},
+{
+    type: "input",
+    message: "What is their employee ID number?",
+    name: "id"
+},
+{
+    type: "input",
+    message: "What is their email?",
+    name: "email"
+},
+{
+    type: "input",
+    message: "What school do they attend?",
+    name: "school"
+}];
 
     const employees = [];
-    var exit = true;
-    do {
-        const begin = await inquirer.prompt(questions[0]);
-        const { newEmployee } = begin;
-        if (newEmployee === true) {
-            const type = await inquirer.prompt(questions[1]);
-            const { employeeType } = type;
-            if (employeeType === 'Manager') {
-                const managerObject = await inquirer.prompt(managerQuestions);
-                const { name, id, email, office } = managerObject;
-                const newManager = new Manager(name, id, email, office);
-                employees.push(newManager);
-                const runAgain = await inquirer.prompt(questions[2]);
-                const { anotherEmployee } = runAgain
-                exit = anotherEmployee;
-            }
-            else if (employeeType === 'Engineer') {
-                const engineerObject = await inquirer.prompt(engineerQuestions);
-                const { name, id, email, github } = engineerObject;
-                const newEngineer = new Engineer(name, id, email, github);
-                employees.push(newEngineer);
-                const runAgain = await inquirer.prompt(questions[2]);
-                const { anotherEmployee } = runAgain
-                exit = anotherEmployee;
-            }
-            else if (employeeType === 'Intern') {
-                const internObject = await inquirer.prompt(internQuestions);
-                const { name, id, email, school } = internObject;
-                const newIntern = new Intern(name, id, email, school);
-                employees.push(newIntern);
-                const runAgain = await inquirer.prompt(questions[2]);
-                const { anotherEmployee } = runAgain
-                exit = anotherEmployee;
-            }
-        } else if (newEmployee === false) {
-            exit = false;
-        };
-    }
-    while (exit === true);
-    const teamHTML = await render(employees);
-    fs.writeFile(outputPath, teamHTML, 'utf8', function (err) {
-        if (err) {
-            return console.log('Something went wrong.');
-        };
+    getManager();
+
+function getManager() {
+    prompt(managerQuestions).then(response => {
+        const manager = new Manager(response.name, response.id, response.email, response.officeNumber);
+        employees.push(manager);
+        console.log(employees);
+        nextEmployee();
+    })
+};
+
+function nextEmployee() {
+    prompt(moreEmployees).then(response => {
+        if (response.nextEmployee === "Engineer") {
+            getEngineer();
+        } else if (response.nextEmployee === "Intern") {
+            getIntern();
+        } else {
+            html = render(employees);
+            fs.appendFile("./output/team.html", html, (err) => {
+                if (err) throw err;
+                console.log("Your team page was successfully generated!")
+            })
+        }
     });
 };
 
-startApp();
+function getEngineer() {
+    prompt(engineerQuestions).then(response => {
+        const engineer = new Engineer(response.name, response.id, response.email, response.github);
+        employees.push(engineer);
+        console.log(employees);
+        nextEmployee();
+    });
+};
 
+function getIntern() {
+    prompt(internQuestions).then(response => {
+        const intern = new Intern(response.name, response.id, response.email, response.school);
+        employees.push(intern);
+        console.log(employees);
+        nextEmployee();
+    });
+};
 
+module.exports = employees;
 
 
 // After the user has input all employees desired, call the `render` function (required
@@ -173,4 +142,4 @@ startApp();
 // and Intern classes should all extend from a class named Employee; see the directions
 // for further information. Be sure to test out each class and verify it generates an
 // object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work! 
+// for the provided `render` function to work
