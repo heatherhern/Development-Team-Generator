@@ -5,7 +5,7 @@ const inquirer = require('inquirer');
 const render = require('./lib/htmlRenderer');
 const path = require('path');
 const fs = require('fs');
-var prompt = inquirer.createPromptModule();
+let prompt = inquirer.createPromptModule();
 
 const OUTPUT_DIR = path.resolve(__dirname, 'output');
 const outputPath = path.join(OUTPUT_DIR, 'team.html');
