@@ -1,8 +1,10 @@
 # Development-Team-Generator
 
-This is a software engineering team generator command line application. 
+This is a software engineering team generator command line application built with Node CLI. This app takes in information about employees and generates an HTML webpage that displays summaries for each person. 
 
-Objective: Build a Node CLI that takes in information about employees and generates an HTML webpage that displays summaries for each person. Since testing is a key piece in making code maintainable, you will also be ensuring that all unit tests pass.
+![Development Team Generator App Screenshot]("/Assets/app.png")
+
+## Objective
 
 ```
 As a manager
@@ -11,18 +13,19 @@ so that I have quick access to emails and GitHub profiles
 ```
 
 ## To Run
-You can run the tests at any time with `npm run test`
+Run the app with `node app.js`. 
 
-It is recommended that you start with a directory structure that looks like this:
+## Tests
+You can run the tests at any time with `npm run test`.
 
-```
-lib/           // classes and helper code
-output/        // rendered output
-templates/     // HTML template(s)
-test/          // jest tests
-  Employee.test.js
-  Engineer.test.js
-  Intern.test.js
-  Manager.test.js
-app.js         // Runs the application
-```
+## Author(s)
+Heather Hern
+
+## Badges
+![Badge](https://img.shields.io/badge/license-MIT-<green>)  
+
+## Questions
+* Github: [heatherhern](http://github.com/heatherhern)
+* Submit Questions to [heathernewlin1@gmail.com](heathernewlin1@gmail.com)
+
+
