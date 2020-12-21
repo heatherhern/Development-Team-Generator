@@ -2,7 +2,8 @@
 
 This is a software engineering team generator command line application built with Node CLI. This app takes in information about employees and generates an HTML webpage that displays summaries for each person. 
 
-![GitHub Pages Link](https://heatherhern.github.io/Development-Team-Generator/)
+# GitHub Pages Link
+https://heatherhern.github.io/Development-Team-Generator/
 
 ![Development Team Generator App Screenshot](/Assets/app.png)
 
