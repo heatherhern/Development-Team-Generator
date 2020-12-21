@@ -96,7 +96,7 @@ function nextEmployee() {
             getIntern();
         } else {
             html = render(employees);
-            fs.appendFile("./output/team.html", html, (err) => {
+            fs.writeFile("./output/team.html", html, (err) => {
                 if (err) throw err;
                 console.log("Your team page was successfully generated!")
             })
